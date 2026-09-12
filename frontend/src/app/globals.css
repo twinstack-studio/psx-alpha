@@ -1,0 +1,327 @@
+@import "tailwindcss";
+
+/* ==========================================================================
+   Design tokens
+   A single dark palette tuned for dense financial data: a near-black base
+   with a blue tint, layered translucent surfaces, and semantic colours that
+   stay legible against every one of them.
+   ========================================================================== */
+:root {
+  --bg: #060710;
+  --bg-2: #090b16;
+  --surface: rgba(255, 255, 255, 0.028);
+  --surface-2: rgba(255, 255, 255, 0.046);
+  --surface-solid: #0e1120;
+  --line: rgba(255, 255, 255, 0.075);
+  --line-strong: rgba(255, 255, 255, 0.14);
+
+  --text: #e9ecf5;
+  --text-muted: #98a1b8;
+  --text-dim: #626c85;
+
+  --brand: #6d8dff;
+  --brand-2: #a78bfa;
+  --brand-3: #22d3ee;
+
+  --pos: #34d399;
+  --pos-dim: rgba(52, 211, 153, 0.14);
+  --neg: #fb7185;
+  --neg-dim: rgba(251, 113, 133, 0.14);
+  --warn: #fbbf24;
+  --warn-dim: rgba(251, 191, 36, 0.14);
+  --neutral: #94a3b8;
+
+  --radius: 16px;
+  --shadow-lift: 0 1px 0 rgba(255, 255, 255, 0.05) inset,
+                 0 20px 50px -24px rgba(0, 0, 0, 0.9);
+}
+
+@theme inline {
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-surface: var(--surface);
+  --color-surface-2: var(--surface-2);
+  --color-surface-solid: var(--surface-solid);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-text: var(--text);
+  --color-muted: var(--text-muted);
+  --color-dim: var(--text-dim);
+  --color-brand: var(--brand);
+  --color-brand-2: var(--brand-2);
+  --color-brand-3: var(--brand-3);
+  --color-pos: var(--pos);
+  --color-neg: var(--neg);
+  --color-warn: var(--warn);
+  --font-sans: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, "SF Mono", monospace;
+}
+
+* {
+  border-color: var(--line);
+}
+
+html {
+  color-scheme: dark;
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--bg);
+  color: var(--text);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+
+/* Ambient background.
+   The drifting aurora and the node field are painted on a canvas (see
+   AuroraCanvas), which sits at z-index -10. This layer is the floor beneath
+   it: the flat base colour plus a faint static wash, so the page still has
+   depth on the first frame and for anyone who blocks canvas or scripting. */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -20;
+  background:
+    radial-gradient(900px 600px at 12% -8%, rgba(109, 141, 255, 0.07), transparent 62%),
+    radial-gradient(760px 520px at 88% 4%, rgba(167, 139, 250, 0.055), transparent 60%),
+    var(--bg);
+}
+
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.028) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.028) 1px, transparent 1px);
+  background-size: 56px 56px;
+  mask-image: radial-gradient(ellipse 110% 78% at 50% 0%, #000 35%, transparent 78%);
+}
+
+/* ---------- scrollbars ---------- */
+::-webkit-scrollbar { width: 10px; height: 10px; }
+::-webkit-scrollbar-track { background: transparent; }
+::-webkit-scrollbar-thumb {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 99px;
+  border: 2px solid transparent;
+  background-clip: content-box;
+}
+::-webkit-scrollbar-thumb:hover { background: rgba(255, 255, 255, 0.2); background-clip: content-box; }
+
+::selection { background: rgba(109, 141, 255, 0.32); color: #fff; }
+
+/* ==========================================================================
+   Component utilities
+   ========================================================================== */
+@layer components {
+  .card {
+    position: relative;
+    background: var(--surface);
+    border: 1px solid var(--line);
+    border-radius: var(--radius);
+    box-shadow: var(--shadow-lift);
+    backdrop-filter: blur(14px);
+  }
+
+  /* A one-pixel highlight along the top edge: the detail that separates a
+     flat panel from a lit surface. */
+  .card-lit::before {
+    content: "";
+    position: absolute;
+    inset-inline: 12%;
+    top: 0;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.34), transparent);
+  }
+
+  .card-hover {
+    transition: border-color .28s ease, transform .28s cubic-bezier(.22,1,.36,1),
+                background .28s ease;
+  }
+  .card-hover:hover {
+    border-color: var(--line-strong);
+    background: var(--surface-2);
+    transform: translateY(-2px);
+  }
+
+  .num { font-family: var(--font-mono); font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+
+  .label {
+    font-size: 10.5px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--text-dim);
+    font-weight: 600;
+  }
+
+  .pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11px;
+    font-weight: 600;
+    border: 1px solid var(--line);
+    white-space: nowrap;
+  }
+
+  .divider { height: 1px; background: var(--line); }
+
+  .focus-ring:focus-visible {
+    outline: 2px solid var(--brand);
+    outline-offset: 2px;
+  }
+}
+
+/* ---------- recommendation bands ---------- */
+.band-strong-buy { color: #6ee7b7; background: rgba(52, 211, 153, 0.13); border-color: rgba(52, 211, 153, 0.34); }
+.band-buy        { color: #86efac; background: rgba(74, 222, 128, 0.10); border-color: rgba(74, 222, 128, 0.26); }
+.band-hold       { color: #cbd5e1; background: rgba(148, 163, 184, 0.11); border-color: rgba(148, 163, 184, 0.24); }
+.band-reduce     { color: #fcd34d; background: rgba(251, 191, 36, 0.11); border-color: rgba(251, 191, 36, 0.26); }
+.band-avoid      { color: #fda4af; background: rgba(251, 113, 133, 0.12); border-color: rgba(251, 113, 133, 0.3); }
+
+/* ==========================================================================
+   Motion
+   ========================================================================== */
+@keyframes shimmer {
+  0%   { background-position: -450px 0; }
+  100% { background-position: 450px 0; }
+}
+.shimmer {
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.07), transparent);
+  background-size: 450px 100%;
+  animation: shimmer 2.1s infinite linear;
+}
+
+@keyframes pulse-dot {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50%      { opacity: .45; transform: scale(.82); }
+}
+.pulse-dot { animation: pulse-dot 2.2s ease-in-out infinite; }
+
+@keyframes draw {
+  from { stroke-dashoffset: var(--len, 2400); }
+  to   { stroke-dashoffset: 0; }
+}
+
+@keyframes float-slow {
+  0%, 100% { transform: translateY(0); }
+  50%      { transform: translateY(-7px); }
+}
+.float-slow { animation: float-slow 7s ease-in-out infinite; }
+
+/* Sheen that sweeps once across a freshly revealed hero number. */
+@keyframes sheen {
+  0%   { transform: translateX(-120%) skewX(-18deg); opacity: 0; }
+  22%  { opacity: .85; }
+  100% { transform: translateX(240%) skewX(-18deg); opacity: 0; }
+}
+.sheen::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,0.14), transparent);
+  animation: sheen 2.6s ease-out .5s both;
+  pointer-events: none;
+}
+
+/* Marquee: the track holds two copies of its children, so translating it by
+   exactly half its own width lands the second copy where the first began and
+   the loop has no seam. */
+@keyframes marquee-run {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(-50%, 0, 0); }
+}
+.marquee { overflow: hidden; }
+.marquee-track {
+  display: flex;
+  width: max-content;
+  animation: marquee-run linear infinite;
+  will-change: transform;
+}
+.marquee-pausable:hover .marquee-track { animation-play-state: paused; }
+
+/* Gradient text that drifts, for the one headline that carries the project. */
+@keyframes gradient-pan {
+  0%, 100% { background-position: 0% 50%; }
+  50%      { background-position: 100% 50%; }
+}
+.gradient-pan {
+  background-size: 220% 220%;
+  animation: gradient-pan 9s ease-in-out infinite;
+}
+
+/* A slow conic sweep around a card edge, used to mark the live/leading panel. */
+@keyframes border-spin {
+  to { transform: rotate(1turn); }
+}
+.ring-sweep { position: relative; isolation: isolate; }
+.ring-sweep::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: conic-gradient(from 0turn, transparent 0 62%, var(--brand) 78%, var(--brand-3) 88%, transparent 100%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+          mask-composite: exclude;
+  animation: border-spin 6s linear infinite;
+  opacity: .75;
+  z-index: -1;
+}
+
+/* Skeleton block for route-level loading states. */
+@keyframes skeleton-pulse {
+  0%, 100% { opacity: .5; }
+  50%      { opacity: .85; }
+}
+.skeleton {
+  position: relative;
+  overflow: hidden;
+  background: rgba(255, 255, 255, 0.045);
+  border-radius: 10px;
+  animation: skeleton-pulse 1.7s ease-in-out infinite;
+}
+.skeleton::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.07), transparent);
+  transform: translateX(-100%);
+  animation: skeleton-sweep 1.6s ease-in-out infinite;
+}
+@keyframes skeleton-sweep {
+  to { transform: translateX(100%); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: .001ms !important;
+    scroll-behavior: auto !important;
+  }
+  /* The marquee has no static resting state worth showing mid-run, so it
+     parks at the start rather than inheriting the 0.001ms override. */
+  .marquee-track { animation: none !important; transform: none !important; }
+}
+
+/* ---------- recharts overrides ---------- */
+.recharts-cartesian-axis-tick text {
+  fill: var(--text-dim);
+  font-size: 11px;
+  font-family: var(--font-mono);
+}
+.recharts-cartesian-grid line { stroke: rgba(255, 255, 255, 0.055); }
+.recharts-curve.recharts-tooltip-cursor { stroke: rgba(255, 255, 255, 0.22); }
+.recharts-surface { overflow: visible; }
+.recharts-default-legend { font-size: 12px !important; }

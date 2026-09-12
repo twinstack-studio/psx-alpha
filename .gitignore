@@ -1,0 +1,26 @@
+# python
+__pycache__/
+*.py[cod]
+.venv/
+backend/data/psx.db
+backend/data/exports/
+backend/data/raw/
+backend/data/models/
+
+# node
+node_modules/
+.next/
+out/
+
+# logs and scratch
+*.log
+build.log
+server.log
+npm*.log
+pip.log
+
+# editors / os
+.vscode/
+.idea/
+.DS_Store
+Thumbs.db

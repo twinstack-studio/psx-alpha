@@ -1,0 +1,27 @@
+# Normalise line endings in the repository to LF.
+#
+# Without this, a checkout on Windows stores CRLF and a checkout on macOS or
+# Linux stores LF, so the same file reads as entirely rewritten in every diff
+# between the two. Storing LF and letting each machine check out what it wants
+# keeps diffs to the lines that actually changed.
+* text=auto eol=lf
+
+# Scripts that only ever run on Windows need CRLF on disk.
+*.ps1 text eol=crlf
+*.cmd text eol=crlf
+*.bat text eol=crlf
+
+# Binary: never touch, never diff as text.
+*.png binary
+*.jpg binary
+*.jpeg binary
+*.gif binary
+*.ico binary
+*.woff binary
+*.woff2 binary
+*.db binary
+
+# Generated lockfiles and the exported analysis bundle are reviewed as a whole
+# rather than line by line; collapsing them keeps pull requests readable.
+package-lock.json linguist-generated=true -diff
+frontend/public/data/** linguist-generated=true -diff

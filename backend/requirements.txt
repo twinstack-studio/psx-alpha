@@ -1,0 +1,21 @@
+# Python 3.12 is the supported runtime: some of these have no wheels for 3.13+ yet.
+fastapi==0.141.1
+uvicorn[standard]==0.52.4
+starlette==1.6.0
+pydantic==2.13.5
+pydantic-settings==2.15.0
+SQLAlchemy==2.0.52
+httpx==0.28.1
+
+numpy==2.5.3
+pandas==3.0.5
+scipy==1.18.1
+scikit-learn==1.9.1
+xgboost==3.4.1
+python-dateutil==2.9.0.post0
+
+# Tests
+pytest==9.1.1
+
+# PostgreSQL driver: uncomment and set PSX_DATABASE_URL to use Postgres
+# psycopg[binary]==3.2.3
