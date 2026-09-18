@@ -149,14 +149,13 @@ class TestScreen:
         assert scores == sorted(scores, reverse=True)
         assert [r["rank"] for r in body["items"]] == list(range(1, len(scores) + 1))
 
-    def test_a_different_weighting_moves_the_book(self):
+    def test_a_different_weighting_moves_the_book(self, client):
         """If every weighting produced the same list the sliders would be
         decoration."""
-        with TestClient(app) as client:
-            quality = self._post(client, quality=1.0, value=0, safety=0,
-                                 growth=0, momentum=0, top_n=10)
-            value = self._post(client, quality=0, value=1.0, safety=0,
-                               growth=0, momentum=0, top_n=10)
+        quality = self._post(client, quality=1.0, value=0, safety=0,
+                             growth=0, momentum=0, top_n=10)
+        value = self._post(client, quality=0, value=1.0, safety=0,
+                           growth=0, momentum=0, top_n=10)
         assert [r["ticker"] for r in quality["items"]] != \
                [r["ticker"] for r in value["items"]]
 

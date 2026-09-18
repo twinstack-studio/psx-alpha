@@ -45,7 +45,7 @@ jobs:
   backend:
     name: Backend tests
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 25
     defaults:
       run:
         working-directory: backend
@@ -63,6 +63,11 @@ jobs:
 
       - name: Install dependencies
         run: pip install -r requirements.txt
+
+      - name: Build the dataset and run the pipeline
+        run: |
+          python -m scripts.build_dataset --reset
+          python -m scripts.run_pipeline
 
       - name: Run tests
         run: python -m pytest
