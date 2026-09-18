@@ -5,6 +5,8 @@ KSE-100 companies from their published accounts, explains every recommendation i
 plain language, and proves out the ranking with a walk-forward backtest against
 the index.
 
+![PSX Alpha dashboard overview](docs/screenshot.png)
+
 ```
                  ┌──────────────┐
   PSX filings ──▶│  Ingest      │  point-in-time: period_end + report_date
@@ -393,3 +395,9 @@ python -m scripts.build_dataset --reset
 ```
 
 Nothing else changes; the schema is declared once in `app/db/models.py`.
+
+## License
+
+Copyright (c) 2026 TwinStack Studio. All rights reserved. The code is published
+as a portfolio showcase only; see [LICENSE](LICENSE). For licensing or project
+enquiries: hello.twinstackstudio@gmail.com
