@@ -13,6 +13,13 @@ updates:
         dependency-type: production
       frontend-development:
         dependency-type: development
+    ignore:
+      # eslint-config-next 16.3 bundles an eslint-plugin-react that crashes on
+      # ESLint 10, and typescript-eslint supports TypeScript below 6.1 only.
+      - dependency-name: eslint
+        versions: [">=10"]
+      - dependency-name: typescript
+        versions: [">=6.1"]
     open-pull-requests-limit: 5
 
   - package-ecosystem: pip
