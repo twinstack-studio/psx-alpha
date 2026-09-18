@@ -1,10 +1,10 @@
 # Python 3.12 is the supported runtime: some of these have no wheels for 3.13+ yet.
 fastapi==0.141.1
-uvicorn[standard]==0.52.4
+uvicorn[standard]==0.53.0
 starlette==1.6.0
 pydantic==2.13.5
 pydantic-settings==2.15.0
-SQLAlchemy==2.0.52
+SQLAlchemy==2.0.53
 httpx==0.28.1
 
 numpy==2.5.3
