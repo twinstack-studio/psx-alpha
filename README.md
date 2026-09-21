@@ -10,7 +10,7 @@ explains each recommendation in plain language, and tests the ranking against
 the index with a walk-forward backtest.
 
 [**Open the live dashboard**](https://psx-alpha-twinstack.vercel.app) ·
-[**Work with TwinStack Studio**](mailto:hello.twinstackstudio@gmail.com)
+[**Work with TwinStack Studio**](https://twinstackstudio.com/contact)
 
 ![PSX Alpha dashboard overview](./assets/psx-alpha.png)
 
@@ -161,6 +161,6 @@ portals, automation, and AI-powered products.
 
 [GitHub](https://github.com/twinstack-studio) ·
 [Website](https://twinstackstudio.com) ·
-[Email](mailto:hello.twinstackstudio@gmail.com)
+[Email](mailto:hello@twinstackstudio.com)
 
 © 2026 TwinStack Studio. All rights reserved. See [LICENSE](./LICENSE).
