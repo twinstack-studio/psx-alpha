@@ -4,11 +4,11 @@ uvicorn[standard]==0.53.0
 starlette==1.6.0
 pydantic==2.13.5
 pydantic-settings==2.15.0
-SQLAlchemy==2.0.53
+SQLAlchemy==2.0.54
 httpx==0.28.1
 
 numpy==2.5.3
-pandas==3.0.5
+pandas==3.0.6
 scipy==1.18.1
 scikit-learn==1.9.1
 xgboost==3.4.1
