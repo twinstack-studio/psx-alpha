@@ -2,14 +2,14 @@
 
 [![CI](https://github.com/twinstack-studio/psx-alpha/actions/workflows/ci.yml/badge.svg)](https://github.com/twinstack-studio/psx-alpha/actions/workflows/ci.yml)
 [![License: All rights reserved](https://img.shields.io/badge/License-All_rights_reserved-4f46e5.svg)](./LICENSE)
-[![Live Dashboard](https://img.shields.io/badge/Live_Dashboard-Open-4f46e5.svg)](https://psx-alpha-twinstack.vercel.app)
+[![Live Dashboard](https://img.shields.io/badge/Live_Dashboard-Open-4f46e5.svg)](https://psxalpha.twinstackstudio.com)
 
 An AI-driven stock research engine for the Pakistan Stock Exchange. PSX Alpha
 reads the published accounts of every KSE-100 company, scores and ranks them,
 explains each recommendation in plain language, and tests the ranking against
 the index with a walk-forward backtest.
 
-[**Open the live dashboard**](https://psx-alpha-twinstack.vercel.app) ·
+[**Open the live dashboard**](https://psxalpha.twinstackstudio.com) ·
 [**Work with TwinStack Studio**](https://twinstackstudio.com/contact)
 
 ![PSX Alpha dashboard overview](./assets/psx-alpha.png)
